@@ -5,7 +5,7 @@ int fmi_rec_c(int*, int, int, int);
 int fmi_rec_s(int*, int, int, int);
 
 int main(int argc, char **argv) {
-    int arr[4] = {400, 2, 300, 50};
+    int arr[4] = {400, 2, 300, 500};
     int len = 4;
     
     int c_result = fmi_rec_c(arr, len, 1, 0);

@@ -1,9 +1,9 @@
 .global fact_s
 
 fact_s:
-    addi sp, sp, -16     # prologue
+    addi sp, sp, -16    # prologue
     sd ra, (sp)
-    sd a0, 8(sp)
+    sd a0, 8(sp)        # preserve n
 
     li t1, 1            # base case
     ble a0, t1, done

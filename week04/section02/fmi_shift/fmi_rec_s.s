@@ -11,13 +11,11 @@ fmi_rec_s:
 
     ble a1, a2, done    # if len <= idx, done
 
-    li t1, 4            # arr elem is 4 bytes
-    mul t1, t1, a2      # t1 is offset
+    slli t1, a2, 2      # t1 is the offset of max'th elem
     add t1, t1, a0      # t1 is addr of idx offset
     lw t2, (t1)         # t2 is arr[idx]
 
-    li t1, 4
-    mul t1, t1, a3      # t1 is offset of max
+    slli t1, a3, 2      # t1 is the offset of max'th elem
     add t1, t1, a0      # t1 is addr of max offset
     lw t1, (t1)         # t1 is arr[max]
 
