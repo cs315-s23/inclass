@@ -18,16 +18,48 @@ void emu_init(struct emu_state *state, uint32_t *code, uint32_t a0, uint32_t a1)
     state->regs[A1] = a1;
 }
 
-void emu_run(struct emu_state *state) {
+void handle_r_type(struct emu_state *state, uint32_t iw) {
+    uint32_t f3 = (iw >> 12) & 0b111;
+    uint32_t f7 = (iw >> 25) & 0x7F;
+    uint32_t rs1 = (iw >> 15) & 0x1F;
+    uint32_t rs2 = (iw >> 20) & 0x1F;
+    uint32_t rd = (iw >> 7) & 0x1F;
+
+    if (f3 == 0 && f7 == 0) {
+        // add instruction
+        state->regs[rd] = state->regs[rs1] + state->regs[rs2];
+    }
+}
+
+void handle_jalr(struct emu_state *state, uint32_t iw) {
+    // jalr (jump and link register) puts the specified reg value into PC
+    uint32_t rs1 = (iw >> 15) & 0x1F;
+    uint32_t rd = (iw >> 7) & 0x1F;
+    
+    state->pc = state->regs[rs1];    
+}
+
+void emu_one(struct emu_state *state) {
     uint32_t iw = * (uint32_t*) (state->pc);
-    uint32_t f7 = iw & 0b1111111;
-    switch (f7) {
+    uint32_t opcode = iw & 0b1111111;
+
+    switch (opcode) {
         case 0b0110011: // R-type instruction
-            uint32_t f3 = (iw >> 12) & 0b111;
-            if (f3 == 0)
-                ;
+            handle_r_type(state, iw);
+            break;
+        case 0b1100111: // jalr
+            handle_jalr(state, iw);
+            break;
         default:
             printf("unknown instruction type\n");
+    }
+}
+
+void emu_run(struct emu_state *state) {
+    while (state->pc) {
+        emu_one(state);
+        if (state->pc)
+            state->pc += 4;
     }
 }
 
