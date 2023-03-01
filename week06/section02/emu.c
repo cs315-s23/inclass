@@ -18,6 +18,9 @@ void emu_init(struct emu_state *state, uint32_t *code, uint32_t a0, uint32_t a1)
     state->regs[A1] = a1;
 }
 
+uint32_t get_bits(uint32_t num, uint32_t start, uint32_t count) {
+    
+}
 void handle_r_type(struct emu_state *state, uint32_t iw) {
     uint32_t f3 = (iw >> 12) & 0b111;
     uint32_t f7 = (iw >> 25) & 0x7F;
