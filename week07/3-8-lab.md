@@ -56,7 +56,7 @@ int64_t base;
 int32_t offset = 8;
 
 int32_t *p = (int32_t*)(base + offset) // 2nd integer or the 8th?
-// the eighth!!
+// the second!!
 ```
 
 ### Memory Access
@@ -83,7 +83,7 @@ void *p;
 
 int8_t *bp = (int8_t*)p;
 
-int8_t byte = '?';
+int8_t byte = 0xFF;
 
 // Load
 byte = *bp;
